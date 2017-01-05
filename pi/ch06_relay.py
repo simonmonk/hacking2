@@ -1,3 +1,7 @@
+# For active-low relays
+# pin mode input - relay off
+# pin mode output low - relay on
+
 import RPi.GPIO as GPIO
 import time
 
@@ -5,13 +9,19 @@ import time
 GPIO.setmode(GPIO.BCM)
 
 led_pin = 18
-GPIO.setup(led_pin, GPIO.OUT)
+
+def relay_on():
+    GPIO.setup(led_pin, GPIO.OUT)
+    GPIO.output(led_pin, False)
+    
+def relay_off():
+    GPIO.setup(led_pin, GPIO.IN)
 
 try:         
     while True:
-        GPIO.output(led_pin, True)  # LED on
+        relay_on()
         time.sleep(0.5)             # delay 0.5 seconds
-        GPIO.output(led_pin, False) # LED off
+        relay_off()
         time.sleep(0.5)             # delay 0.5 seconds
         
 finally:  
